@@ -357,7 +357,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  User request to list AddressBook
 2.  AddressBook shows the list of persons
-    
+
     Use case ends.
 
 **Extensions**
