@@ -9,13 +9,13 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Course {
 
-    public static final String MESSAGE_CONSTRAINTS = "Courses can take any values, and it should not be blank";
+    public static final String MESSAGE_CONSTRAINTS = "Courses should begin with 2 or 3 capital letters, followed by 4 numerals, and optinally a trailing letter";
 
     /*
      * The first character of the course must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    public static final String VALIDATION_REGEX = "^[A-Z]{2,3}\\\\d{4}[A-Z]?";
 
     public final String value;
 
