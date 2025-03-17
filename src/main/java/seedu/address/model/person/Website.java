@@ -3,50 +3,37 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-
 /**
- * Represents a Person's website in the website book.
- * Guarantees: immutable; is valid as declared in {@link #isValidWebsite(String)}
+ * Represents a Person's website in the address book.
+ * Guarantees: immutable; is valid as declared in {@link #isValidWebsite(String)}.
  */
 public class Website {
 
-    private static final String SPECIAL_CHARACTERS = "+_.-";
-    public static final String MESSAGE_CONSTRAINTS = "Websites should be of the format local-part@domain "
-            + "and adhere to the following constraints:\n"
-            + "1. The local-part should only contain alphanumeric characters and these special characters, excluding "
-            + "the parentheses, (" + SPECIAL_CHARACTERS + "). The local-part may not start or end with any special "
-            + "characters.\n"
-            + "2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels "
-            + "separated by periods.\n"
-            + "The domain name must:\n"
-            + "    - end with a domain label at least 2 characters long\n"
-            + "    - have each domain label start and end with alphanumeric characters\n"
-            + "    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.";
-    // alphanumeric and special characters
-    private static final String ALPHANUMERIC_NO_UNDERSCORE = "[^\\W_]+"; // alphanumeric characters except underscore
-    private static final String LOCAL_PART_REGEX = "^" + ALPHANUMERIC_NO_UNDERSCORE + "([" + SPECIAL_CHARACTERS + "]"
-            + ALPHANUMERIC_NO_UNDERSCORE + ")*";
-    private static final String DOMAIN_PART_REGEX = ALPHANUMERIC_NO_UNDERSCORE
-            + "(-" + ALPHANUMERIC_NO_UNDERSCORE + ")*";
-    private static final String DOMAIN_LAST_PART_REGEX = "(" + DOMAIN_PART_REGEX + "){2,}$"; // At least two chars
-    private static final String DOMAIN_REGEX = "(" + DOMAIN_PART_REGEX + "\\.)*" + DOMAIN_LAST_PART_REGEX;
-    public static final String VALIDATION_REGEX = LOCAL_PART_REGEX + "@" + DOMAIN_REGEX;
+    // Error message for invalid website format
+    public static final String MESSAGE_CONSTRAINTS =
+            "Websites start with 'http://' or 'https://', followed by a valid domain name";
 
+    // Regex for validating website format
+    public static final String VALIDATION_REGEX = "^(https?://)?([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}(/[\\w-]*)*$";
+
+    // The website URL value
     public final String value;
 
     /**
-     * Constructs an {@code Website}.
+     * Constructs a {@code Website}.
      *
      * @param website A valid website.
+     * @throws NullPointerException     if the website is null.
+     * @throws IllegalArgumentException if the website is invalid.
      */
     public Website(String website) {
-        requireNonNull(website);
+        requireNonNull(website, "Website cannot be null");
         checkArgument(isValidWebsite(website), MESSAGE_CONSTRAINTS);
         value = website;
     }
 
     /**
-     * Returns true if a given string is a valid email.
+     * Returns true if a given string is a valid website.
      */
     public static boolean isValidWebsite(String test) {
         return test.matches(VALIDATION_REGEX);
@@ -59,14 +46,17 @@ public class Website {
 
     @Override
     public boolean equals(Object other) {
+        // Return true if the objects are the same instance
         if (other == this) {
             return true;
         }
-        // instanceof handles nulls
+
+        // Check if the other object is an instance of Website
         if (!(other instanceof Website)) {
             return false;
         }
 
+        // Compare values for equality
         Website otherWebsite = (Website) other;
         return value.equals(otherWebsite.value);
     }
@@ -75,6 +65,4 @@ public class Website {
     public int hashCode() {
         return value.hashCode();
     }
-
 }
-
